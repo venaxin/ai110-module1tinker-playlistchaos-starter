@@ -62,7 +62,8 @@ def classify_song(song: Song, profile: Dict[str, object]) -> str:
     energy = song.get("energy", 0)
     genre = song.get("genre", "")
     title = song.get("title", "")
-
+    tags = song.get("tags", [])
+    
     hype_min_energy = profile.get("hype_min_energy", 7)
     chill_max_energy = profile.get("chill_max_energy", 3)
     favorite_genre = profile.get("favorite_genre", "")
@@ -72,10 +73,13 @@ def classify_song(song: Song, profile: Dict[str, object]) -> str:
 
     is_hype_keyword = any(k in genre for k in hype_keywords)
     is_chill_keyword = any(k in genre for k in chill_keywords)
+    
+    is_hype_tag = any(i in tags for i in hype_keywords )
+    is_chill_tag = any(i in tags for i in chill_keywords )
 
-    if energy >= hype_min_energy or is_hype_keyword:
+    if energy >= hype_min_energy or is_hype_keyword or is_hype_tag:
         return "Hype"
-    if energy <= chill_max_energy or is_chill_keyword:
+    if energy <= chill_max_energy or is_chill_keyword or is_chill_tag:
         return "Chill"
     return "Mixed"
 
@@ -116,7 +120,8 @@ def compute_playlist_stats(playlists: PlaylistMap) -> Dict[str, object]:
     chill = playlists.get("Chill", [])
     mixed = playlists.get("Mixed", [])
 
-    total = len(hype)
+    # total = len(hype)
+    total = len(all_songs)
     hype_ratio = len(hype) / total if total > 0 else 0.0
 
     avg_energy = 0.0
