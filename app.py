@@ -7,7 +7,7 @@ from playlist_logic import (
     compute_playlist_stats,
     history_summary,
     lucky_pick,
-    merge_playlists,
+    # merge_playlists,
     normalize_song,
     search_songs,
 )
@@ -392,13 +392,19 @@ def main():
     songs = st.session_state.songs
 
     base_playlists = build_playlists(songs, profile)
-    merged_playlists = merge_playlists(base_playlists, {})
+    # merged_playlists = merge_playlists(base_playlists, {})
 
-    playlist_tabs(merged_playlists)
+    # playlist_tabs(merged_playlists)
+    # st.divider()
+    # lucky_section(merged_playlists)
+    # st.divider()
+    # stats_section(merged_playlists)
+    # st.divider()
+    playlist_tabs(base_playlists)
     st.divider()
-    lucky_section(merged_playlists)
+    lucky_section(base_playlists)
     st.divider()
-    stats_section(merged_playlists)
+    stats_section(base_playlists)
     st.divider()
     history_section()
 
